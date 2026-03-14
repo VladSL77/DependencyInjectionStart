@@ -1,24 +1,28 @@
 package com.example.dependencyinjectionstart.example1
 
+import javax.inject.Inject
+
 class Activity {
 
-    /*
-    У настоящей Активити мы не можем вызвать конструктор, соответственно, мы не можем передать в него зависимости.
-    Поэтому, чтобы получить в Активити экземпляр класса Компьютер, мы можем сделать инъекцию зависимости в поле объекта
-    класса Активити.
-    Вся логика создания Компьютера теперь будет в классе Компонент.
-    Есть такой вариант:
-    val computer = Component().getComputer()
-    Но это не лучший вариант, ибо Активити САМА запрашивает у Компонента создание зависимости (экземпляра Компьютера). И так
-    было бы для КАЖДОЙ зависимости. А нам необходимо, чтобы ВСЕ зависимости доставлялись СНАРУЖИ.
-    Поэтому лучше вариант ниже. В этом случае мы не запрашиваем отдельно все зависимости от Компонента, а говорим "добавь все
-    необходимые зависимости в данный класс".
-     */
+    private val component = DaggerNewComponent.create()
 
-    lateinit var computer: Computer
+    @Inject
+    lateinit var keyboard: Keyboard
+    @Inject
+    lateinit var mouse: Keyboard
+    @Inject
+    lateinit var monitor: Keyboard
 
-    // В настоящей Активити это было бы не init{}, а onCreate()
+//    val keyboard = component.getKeyboard()
+//    val mouse = component.getMouse()
+//    val monitor = component.getMonitor()
+
     init {
-        Component().inject(this)
+        component.inject(this)
     }
 }
+
+/*
+В этом уроке рассматриваем всё те же два варианта работы - через геттеры (что не гуд), и через
+метод inject() (предпочтительный вариант). Но уже с использованием Даггера и аннотаций.
+ */
