@@ -5,10 +5,13 @@ import android.util.Log
 import com.example.dependencyinjectionstart.R
 import javax.inject.Inject
 
-class ExampleApiService @Inject constructor(private val context: Context) {
+class ExampleApiService @Inject constructor(
+    private val context: Context,
+    private val currentTime: Long
+) {
 
     fun method() {
-        Log.d(LOG_TAG, "ExampleApiService ${context.getString(R.string.app_name)}")
+        Log.d(LOG_TAG, "ExampleApiService name: ${context.getString(R.string.app_name)} time: $currentTime")
     }
 
     companion object {
