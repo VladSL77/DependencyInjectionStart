@@ -15,15 +15,29 @@ interface ApplicationComponent {
     (контекст или что-то ещё).
     Уроком ранее был НЕ крутой вариант с созданием отдельного модуля.
      */
-    @Component.Builder
-    interface ApplicationComponentBuilder {
+//    @Component.Builder
+//    interface ApplicationComponentBuilder {
+//
+//        @BindsInstance
+//        fun context(context: Context): ApplicationComponentBuilder
+//
+//        @BindsInstance
+//        fun currentTimeInMillis(currentTime: Long): ApplicationComponentBuilder
+//
+//        fun build(): ApplicationComponent
+//    }
 
-        @BindsInstance
-        fun context(context: Context): ApplicationComponentBuilder
+    /*
+    Оказалось, что и билдер - не круто. А круто - Factory. И не нужно плодить кучу методов.
+     */
+    @Component.Factory
+    interface ApplicationComponentFactory {
 
-        @BindsInstance
-        fun currentTimeInMillis(currentTime: Long): ApplicationComponentBuilder
-
-        fun build(): ApplicationComponent
+        fun create(
+            @BindsInstance
+            context: Context,
+            @BindsInstance
+            currentTime: Long
+        ): ApplicationComponent
     }
 }
