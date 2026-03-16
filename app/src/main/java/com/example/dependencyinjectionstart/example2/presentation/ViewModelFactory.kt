@@ -27,10 +27,10 @@ import javax.inject.Provider
 class ViewModelFactory @Inject constructor(
     // Для Даггера важно "буква в букву" и без @JvmSuppressWildcards у нас "ViewModel" при компиляции в Котлин превратится
     // в "? extend ViewModel" и Даггеру это уже не нравится.
-    private val viewModelsProviders: @JvmSuppressWildcards Map<String, Provider<ViewModel>>
+    private val viewModelsProviders: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return viewModelsProviders[modelClass.simpleName]?.get() as T
+        return viewModelsProviders[modelClass]?.get() as T
     }
 }
