@@ -36,6 +36,8 @@ class ViewModelFactory @Inject constructor(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return viewModelsProviders[modelClass]?.get() as T
+        val provider = viewModelsProviders[modelClass]
+            ?: throw IllegalArgumentException("Unknown ViewModel class: $modelClass. Check your Dagger modules.")
+        return provider.get() as T
     }
 }
